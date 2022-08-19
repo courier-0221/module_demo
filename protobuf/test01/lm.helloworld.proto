@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+// compile
+// protoc lm.helloworld.proto --cpp_out=.
+// 生成lm.helloworld.pb.cc  lm.helloworld.pb.h
+package lm;
+message helloworld
+{
+	int32   id = 1;
+	string  str = 2;
+    int32   opt = 3;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+package TEXT;
+
+message ZOO{
+	string zooName = 1;
+	string addr = 2;
+	int32 age = 3;
+	
+	message animal{
+		string animalType = 1;
+		int32	count = 2;
+	}
+	
+	repeated animal animals = 4;
+}
