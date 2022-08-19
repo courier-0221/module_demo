@@ -1,0 +1,23 @@
+TARGET := sqliteDemo
+
+INCLUDE := ./
+STATIC_LIB = \
+	libsqlite3.a \
+
+COMMON_LIB := -lpthread
+
+CXX = aarch64-linux-gnu-gcc
+CPPFLAGS = -g -O2 -Wall -fPIC -shared 
+CPPFLAGS += $(addprefix -I,$(INCLUDE))
+
+FILETYPE = c
+OBJS := $(MUDUOSRC)*.$(FILETYPE)
+
+
+all : $(TARGET)
+
+$(TARGET) : $(OBJS)
+	$(CXX) $(CPPFLAGS) -o $(TARGET) $(OBJS) $(COMMON_LIB) $(STATIC_LIB)
+
+clean:
+	-rm -f $(TARGET)
