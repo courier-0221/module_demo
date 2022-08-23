@@ -27,15 +27,17 @@ public:
 // 被观察者
 class Observable : public enable_shared_from_this<Observable>
 {
-public:
+public: 
+    using ObserverList = std::vector<std::weak_ptr<Observer>>;
+    
+    Observable(): observers_(new ObserverList) {}
+    
     void register_(const weak_ptr<Observer> &x);
     void unregister();
     void notify();
 
 private:
-    //vector<Observer*> observers_;
-    vector<weak_ptr<Observer>> observers_;    
-    // 这里没有用shared_ptr的原因是  如果使用了shared_ptr观察者的指针就算都析构干净了这里还是1，不会被析构掉
+    shared_ptr<ObserverList> observers_;
     MutexLock mutex_;   // 锁住observers_
 };
 
@@ -51,10 +53,34 @@ Observer::~Observer()
     }
 }
 
+// cow的读取方
+void Observable::notify()
+{
+    shared_ptr<ObserverList> ob;
+    {
+        MutexLockGuard lockGuard(mutex_);
+        ob = observers_;
+    }
+    
+    for (auto iter = ob->begin(); iter != ob->end();  iter++) {
+        auto p = iter->lock();
+        if (p) {
+            p->update();
+        }
+    }
+}
+
+// cow的写入方
 void Observable::register_(const weak_ptr<Observer> &x)
 {
-    MutexLockGuard lockGuard(mutex_);
-    observers_.push_back(x);
+    {
+        MutexLockGuard lockGuard(mutex_);
+        if (!observers_.unique()) {
+            observers_.reset(new ObserverList(*observers_));
+        }
+        observers_->push_back(x);
+    }
+    
     auto p = x.lock();
     if (p) {
         //p->subject_ = std::shared_ptr<Observable>(this);        //FATAL
@@ -64,32 +90,20 @@ void Observable::register_(const weak_ptr<Observer> &x)
     }
 }
 
-void Observable::notify()
-{
-    MutexLockGuard lockGuard(mutex_);
-    for (auto iter = observers_.begin(); iter != observers_.end();  ) {
-        auto p = iter->lock();
-        if (p) {
-            p->update();
-            ++iter;
-        } else {
-            //weak_ptr失效，所指向的对象已经析构了，则进行删除操作
-            iter = observers_.erase(iter);
-        }
-    }
-}
-
+// cow的写入方
 void Observable::unregister() {
     MutexLockGuard lockGuard(mutex_);
-    for (auto iter = observers_.begin(); iter != observers_.end(); ) {
+    if (!observers_.unique()) {
+            observers_.reset(new ObserverList(*observers_));
+    }
+
+    for (auto iter = observers_->begin(); iter != observers_->end(); ) {
         if (iter->expired()) {
-            iter = observers_.erase(iter);
+            iter = observers_->erase(iter);
         } else {
             ++iter;
         }
     }
 }
-
-
 
 #endif

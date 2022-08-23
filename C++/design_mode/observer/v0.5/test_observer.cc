@@ -73,7 +73,6 @@ int main(void)
     shared_ptr<Observer2> observer2 = make_shared<Observer2>(m2pro.get());
     shared_ptr<Observer3> observer3 = make_shared<Observer3>(m2pro.get());
 
-    //register_ 的参数类型必须为 const weak_ptr<Observer> &x 才允许传入 shared_ptr 的实参
     m2pro->register_(observer1);
     m2pro->register_(observer2);
     m2pro->register_(observer3);
