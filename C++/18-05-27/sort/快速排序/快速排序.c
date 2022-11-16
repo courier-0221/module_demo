@@ -22,9 +22,9 @@ int FristLocal(int *array, int low, int high)
 		{
 			low++;
 		}
-		tmp = array[high];
-		array[high] = array[low];
-		array[low] = tmp;
+		tmp = array[low];
+		array[low] = array[high];
+		array[high] = tmp;
 	}
 	return low;
 }
