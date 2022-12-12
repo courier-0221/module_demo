@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <assert.h>
 
+// gcc -g -O2 -fsanitize=address -fno-omit-frame-pointer xxx.c
+// å¼€å¯asanæ£€æµ‹æ˜¯å¦æœ‰å †æ ˆè¶Šç•Œ
 
 int FristLocal(int *array, int low, int high)
 {
@@ -32,9 +34,9 @@ int FristLocal(int *array, int low, int high)
 void QuickSort(int *array, int low, int high)
 {
 	assert(array);
-	int local = FristLocal(array, low, high);
 	if (low < high)
 	{
+        int local = FristLocal(array, low, high);
 		QuickSort(array, low, local - 1);
 		QuickSort(array, local + 1, high);
 	}
@@ -44,7 +46,7 @@ void QuickSort(int *array, int low, int high)
 
 int main(void)
 {
-	printf("¿ìËÙÅÅĞò\n");
+	printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
 	int array[] = { 5, 6, 3, 2, 1, 9, 8, 4, 7, 0 };
 	int len = sizeof(array) / sizeof(*array);
 	
