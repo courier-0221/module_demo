@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-// 求组合
+// 组合总和
 
 // 回溯法解决
 class Solution {
@@ -10,22 +10,31 @@ private:
     vector<vector<int>> result; // 存放符合条件结果的集合
     vector<int> path; // 用来存放符合条件结果
     
-    void backtracking(int n, int k, int startIndex) {
-        if (path.size() == k) {
+    void backtracking(vector<int>& candidates, int target, int index) {
+        int sum = 0;
+        for (auto i : path)
+            sum += i;
+        if (sum == target) {
             result.push_back(path);
             return;
         }
-        for (int i = startIndex; i <= n; i++) {
-            path.push_back(i); // 处理节点 
-            backtracking(n, k, i + 1); // 递归
+        else if (sum > target)
+        {
+            return;
+        }
+
+        
+        for (int i = index; i < candidates.size(); i++) {
+            path.push_back(candidates[i]); // 处理节点 
+            backtracking(candidates, target, i); // 递归，不用i+1了，表示可以重复读取当前的数
             path.pop_back(); // 回溯，撤销处理的节点
         }
     }
 public:
-    vector<vector<int>> combine(int n, int k) {
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         result.clear(); 
         path.clear();
-        backtracking(n, k, 1);
+        backtracking(candidates, target, 0);
         return result;
     }
 };
@@ -46,10 +55,12 @@ void printf_arr2(vector<vector<int>> &arr)
 int main(void)
 {
     Solution s;
-    vector<vector<int>> ret1 = s.combine(4,2);
+    vector<int> arr1 = {2,3,6,7};
+    vector<vector<int>> ret1 = s.combinationSum(arr1, 7);
     printf_arr2(ret1);
 
-    vector<vector<int>> ret2 = s.combine(1,1);
+    vector<int> arr2 = {2,3,5};
+    vector<vector<int>> ret2 = s.combinationSum(arr2, 8);
     printf_arr2(ret2);
 
     return 0;

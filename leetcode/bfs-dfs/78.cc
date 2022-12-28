@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-// 求组合
+// 子集
 
 // 回溯法解决
 class Solution {
@@ -10,22 +10,24 @@ private:
     vector<vector<int>> result; // 存放符合条件结果的集合
     vector<int> path; // 用来存放符合条件结果
     
-    void backtracking(int n, int k, int startIndex) {
-        if (path.size() == k) {
-            result.push_back(path);
+    void backtracking(vector<int>& nums, int index) {
+        result.push_back(path); // 收集子集，要放在终止添加的上面，否则会漏掉自己
+        if (index >= nums.size()) {
             return;
         }
-        for (int i = startIndex; i <= n; i++) {
-            path.push_back(i); // 处理节点 
-            backtracking(n, k, i + 1); // 递归
+    
+        for (int i = index; i < nums.size(); i++) {
+            path.push_back(nums[i]); // 处理节点 
+            //result.push_back(path);
+            backtracking(nums, i + 1); // 递归
             path.pop_back(); // 回溯，撤销处理的节点
         }
     }
 public:
-    vector<vector<int>> combine(int n, int k) {
+    vector<vector<int>> subsets(vector<int>& nums) {
         result.clear(); 
         path.clear();
-        backtracking(n, k, 1);
+        backtracking(nums, 0);
         return result;
     }
 };
@@ -46,10 +48,12 @@ void printf_arr2(vector<vector<int>> &arr)
 int main(void)
 {
     Solution s;
-    vector<vector<int>> ret1 = s.combine(4,2);
+    vector<int> arr1 = {2,3,6,7};
+    vector<vector<int>> ret1 = s.subsets(arr1);
     printf_arr2(ret1);
 
-    vector<vector<int>> ret2 = s.combine(1,1);
+    vector<int> arr2 = {2,3,5};
+    vector<vector<int>> ret2 = s.subsets(arr2);
     printf_arr2(ret2);
 
     return 0;
