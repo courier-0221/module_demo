@@ -5,6 +5,8 @@ using namespace std;
 // 颜色分类
 // 思路，统计出0，1，2个数，然后按照0，1，2顺序写入到原数组中
 
+// 时间复杂度O(n) 空间复杂度O(1)
+
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
