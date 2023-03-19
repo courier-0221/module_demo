@@ -23,6 +23,7 @@ public:
         ::memcpy(_pdata, obj._pdata, _size);
     }
 
+#if 1
     //move构造
     mystring(mystring && obj) noexcept
     {
@@ -35,6 +36,7 @@ public:
         obj._size = 0;
         obj._pdata = nullptr;
     }
+#endif
 
     //move 赋值操作符
     mystring& operator=(mystring && obj) noexcept
@@ -95,6 +97,15 @@ int main(void)
     apple.printData();
     printf("Dest: ");
     dest.printData();
+
+    // 移动构造函数，如果把移动构造函数注释掉则调用拷贝构造函数，如果不注释掉移动构造函数则std::move有效调用移动构造
+    mystring tmp = std::move(dest);
+    printf("Apple: ");
+    apple.printData();
+    printf("Dest: ");
+    dest.printData();
+    printf("Tmp: ");
+    tmp.printData();
 
     return 0;
 }
