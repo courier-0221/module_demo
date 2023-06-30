@@ -357,7 +357,7 @@ def drawPartCostBar(printTable, channelMsgListMap):
             yValueMap[xValue[i]].append(("postTime", 0, 0))
         
         if len(postProcessBeginTime):
-            yValueMap[xValue[i]].append(("waitTime", postProcessBeginTime[0] - hobotInferEndTime[0], postProcessBeginTime[0]))
+            yValueMap[xValue[i]].append(("waitTime", postProcessBeginTime[0] - hobotInferEndTime[0], hobotInferEndTime[0]))
         else:
             yValueMap[xValue[i]].append(("waitTime", 0, 0))
         
@@ -433,6 +433,7 @@ def processFilePrintCost(inputPath):
                 filtedTraceMap["SurroundPostProcessApp:ProcessFrame:start"][seq_num] = int(start_ns/1e6)
 
     tsPubtsLabelSeqStrList = []
+    oneLineList = []
     for i in range(0, len(channelMsgListMap["-sensors-camera-group_info"])):
         camera_timestamp_ms = channelMsgListMap["-sensors-camera-group_info"][i][0]
         for channelName, timeTupleList in channelMsgListMap.items():
@@ -441,30 +442,36 @@ def processFilePrintCost(inputPath):
                     tsPubtsLabelSeqStrList.append("%13d"%timeTuple[0]+";"+"%13d"%timeTuple[1]+';'+channelName)
                     if channelName == '-perception-surround-hobot_inference':
                         tsPubtsLabelSeqStrList.append("%13d"%timeTuple[0]+";"+"%13d"%filtedTraceMap["SurroundMipilotApp:ProcessFrame:start"][timeTuple[2]]+';'+"SurroundMipilotApp:ProcessFrame:start")
+                        oneLineList.append("%13d"%timeTuple[1]+';'+channelName)
+                        oneLineList.append("%13d"%filtedTraceMap["SurroundMipilotApp:ProcessFrame:start"][timeTuple[2]]+';'+"SurroundMipilotApp:ProcessFrame:start")
                     elif channelName == '-perception-frame-v2-mid_center_top_wide':
                         tsPubtsLabelSeqStrList.append("%13d"%timeTuple[0]+";"+"%13d"%filtedTraceMap["SurroundPostProcessApp:ProcessFrame:start"][timeTuple[2]]+';'+"SurroundPostProcessApp:ProcessFrame:start")
+                        oneLineList.append("%13d"%filtedTraceMap["SurroundPostProcessApp:ProcessFrame:start"][timeTuple[2]]+';'+"SurroundPostProcessApp:ProcessFrame:start")
+                        oneLineList.append("%13d"%timeTuple[1]+';'+channelName)
                     break
 
     tsPubtsLabelSeqStrList = sorted(tsPubtsLabelSeqStrList)
+    oneLineList = sorted(oneLineList)
+    print("->".join(oneLineList))
 
-    printTable = []
-    curSensorTs = 0
-    for tsPubtsLabelSeqStr in tsPubtsLabelSeqStrList:
-        ts,pubTs,label = tsPubtsLabelSeqStr.split(";")
-        pubTs = int(pubTs)
-        ts = int(ts)
-        if curSensorTs != ts:
-            printTable.append([])
-            curSensorTs = ts
-            printTable[-1].append(("tigger_time", ts))
-        # printTable[-1].append((label, pubTs-curSensorTs))
-        printTable[-1].append((label, pubTs))
+    # printTable = []
+    # curSensorTs = 0
+    # for tsPubtsLabelSeqStr in tsPubtsLabelSeqStrList:
+    #     ts,pubTs,label = tsPubtsLabelSeqStr.split(";")
+    #     pubTs = int(pubTs)
+    #     ts = int(ts)
+    #     if curSensorTs != ts:
+    #         printTable.append([])
+    #         curSensorTs = ts
+    #         printTable[-1].append(("tigger_time", ts))
+    #     # printTable[-1].append((label, pubTs-curSensorTs))
+    #     printTable[-1].append((label, pubTs))
 
-    for printList in printTable:
-        print("->".join([label+"("+str(ts)+" ms)" for label,ts in printList]))
+    # for printList in printTable:
+    #     print("->".join([label+"("+str(ts)+" ms)" for label,ts in printList]))
 
     # drawLabelCostLineChart(printTable)
-    drawPartCostBar(printTable, channelMsgListMap)
+    # drawPartCostBar(printTable, channelMsgListMap)
     # drawHobotInferAndSeqNumLine(channelMsgListMap)
     # drawHobotInferAndSeqNumBar(channelMsgListMap)
 
