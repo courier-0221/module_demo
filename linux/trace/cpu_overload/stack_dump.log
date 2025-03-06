@@ -1,0 +1,42 @@
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04.2) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word".
+Attaching to process 1252746
+[New LWP 1252747]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+__futex_abstimed_wait_common64 (private=128, cancel=true, abstime=0x0, op=265, expected=1252747, 
+    futex_word=0x7f35bd05b910) at ./nptl/futex-internal.c:57
+
+Thread 2 (Thread 0x7f35bd05b640 (LWP 1252747)):
+#0  busy_task () at 1_cpu_overload.cc:6
+#1  0x00005621d49b802a in std::__invoke_impl<void, void (*)()> (__f=@0x5621e93ceed8: 0x5621d49b62e9 <busy_task()>) at /usr/include/c++/9/bits/invoke.h:60
+#2  0x00005621d49b7fc2 in std::__invoke<void (*)()> (__fn=@0x5621e93ceed8: 0x5621d49b62e9 <busy_task()>) at /usr/include/c++/9/bits/invoke.h:95
+#3  0x00005621d49b7f54 in std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul> (this=0x5621e93ceed8) at /usr/include/c++/9/thread:244
+#4  0x00005621d49b7f11 in std::thread::_Invoker<std::tuple<void (*)()> >::operator() (this=0x5621e93ceed8) at /usr/include/c++/9/thread:251
+#5  0x00005621d49b7ee2 in std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run (this=0x5621e93ceed0) at /usr/include/c++/9/thread:195
+#6  0x00007f35bd461df4 in ?? () from /lib/x86_64-linux-gnu/libstdc++.so.6
+#7  0x00007f35bd1dcb43 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:442
+#8  0x00007f35bd26ea00 in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+
+Thread 1 (Thread 0x7f35bd05c740 (LWP 1252746)):
+#0  __futex_abstimed_wait_common64 (private=128, cancel=true, abstime=0x0, op=265, expected=1252747, futex_word=0x7f35bd05b910) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=128, abstime=0x0, clockid=0, expected=1252747, futex_word=0x7f35bd05b910) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x7f35bd05b910, expected=1252747, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=128) at ./nptl/futex-internal.c:139
+#3  0x00007f35bd1de6a4 in __pthread_clockjoin_ex (threadid=139868781262400, thread_return=0x0, clockid=0, abstime=0x0, block=<optimized out>) at ./nptl/pthread_join_common.c:105
+#4  0x00007f35bd462057 in std::thread::join() () from /lib/x86_64-linux-gnu/libstdc++.so.6
+#5  0x00005621d49b63d6 in main () at 1_cpu_overload.cc:23
+Detaching from program: /home/dear/code/module_demo/linux/trace/cpu_overload/cpu_overload_1, process 1252746
+[Inferior 1 (process 1252746) detached]
