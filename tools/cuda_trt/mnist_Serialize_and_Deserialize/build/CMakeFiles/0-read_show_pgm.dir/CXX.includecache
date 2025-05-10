@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dear/code/learn-d2l/cuda_trt/mnist_Serialize_and_Deserialize/0-read_show_pgm.cpp
+string
+-
+vector
+-
+fstream
+-
+iostream
+-
+numeric
+-
+assert.h
+-
+

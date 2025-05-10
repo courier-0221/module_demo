@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/1-event.dir/1-event_generated_1-event.cu.o  -o 1-event  /usr/local/cuda-11.2/lib64/libcudart_static.a -lpthread -ldl /usr/lib/x86_64-linux-gnu/librt.so 

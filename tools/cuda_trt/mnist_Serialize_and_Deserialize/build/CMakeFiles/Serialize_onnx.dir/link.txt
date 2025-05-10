@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wno-error=deprecated-declarations -Wno-deprecated-declarations    CMakeFiles/Serialize_onnx.dir/Serialize_onnx.cpp.o  -o Serialize_onnx   -L/opt/TensorRT-8.6.1.6/lib  -Wl,-rpath,/opt/TensorRT-8.6.1.6/lib -lnvinfer -lcudart -lnvonnxparser 

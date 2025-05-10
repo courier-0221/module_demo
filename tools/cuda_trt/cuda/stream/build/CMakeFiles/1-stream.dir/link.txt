@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/1-stream.dir/1-stream_generated_1-stream.cu.o  -o 1-stream  /usr/local/cuda-11.2/lib64/libcudart_static.a -lpthread -ldl /usr/lib/x86_64-linux-gnu/librt.so 

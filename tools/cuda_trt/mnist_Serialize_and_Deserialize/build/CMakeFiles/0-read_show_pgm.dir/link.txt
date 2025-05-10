@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wno-error=deprecated-declarations -Wno-deprecated-declarations    CMakeFiles/0-read_show_pgm.dir/0-read_show_pgm.cpp.o  -o 0-read_show_pgm   -L/opt/TensorRT-8.6.1.6/lib 
