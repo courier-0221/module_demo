@@ -1,0 +1,21 @@
+{
+  "frames": [
+    {
+      "camera": "default",
+      "frames": [
+        {
+          "imageUrl": "sdd",
+          "attributes": {
+            "road conditions": "downhill"
+          }
+        },
+        {
+          "imageUrl": "sdd",
+          "attributes": {
+            "road conditions": "downhill"
+          }
+        }
+      ]
+    }
+  ]
+}

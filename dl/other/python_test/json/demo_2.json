@@ -1,0 +1,16 @@
+{
+    "frames":[
+        {
+            "imageUrl" : "123",
+            "attributes": {
+                "road conditions": "downhill"
+            }
+        },
+        {
+            "imageUrl" : "123",
+            "attributes": {
+                "road conditions": "downhill"
+            }
+        }
+    ]
+}
